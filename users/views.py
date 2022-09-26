@@ -5,11 +5,13 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from .models import Child
 
-from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm
+from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm, ChildForm
 
 
-def home(request):
+def index(request):
     return render(request, 'users/home.html')
 
 
@@ -95,3 +97,70 @@ def profile(request):
         profile_form = UpdateProfileForm(instance=request.user.profile)
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+@login_required
+def children(request):
+    return render(request, 'users/childlist.html', {
+        'children': Child.objects.all()
+    })
+
+@login_required
+def view_child(request, id):
+    child = Child.object.get(pk=id)
+    return HttpResponseRedirect(reverse('childlist'))
+
+@login_required
+def add_child(request):
+  if request.method == 'POST':
+    form = StudentForm(request.POST)
+    if form.is_valid():
+      new_student_number = form.cleaned_data['student_number']
+      new_first_name = form.cleaned_data['first_name']
+      new_last_name = form.cleaned_data['last_name']
+      new_email = form.cleaned_data['email']
+      new_field_of_study = form.cleaned_data['field_of_study']
+      new_gpa = form.cleaned_data['gpa']
+
+      new_student = Student(
+        student_number = new_student_number,
+        first_name = new_first_name,
+        last_name = new_last_name,
+        email = new_email,
+        field_of_study = new_field_of_study,
+        gpa = new_gpa
+      )
+      new_student.save()
+      return render(request, 'students/add.html', {
+        'form': StudentForm(),
+        'success': True
+      })
+  else:
+    form = StudentForm()
+  return render(request, 'students/add.html', {
+    'form': StudentForm()
+  })
+
+def edit_child(request, id):
+  if request.method == 'POST':
+    child = Child.objects.get(pk=id)
+    form = ChildForm(request.POST, instance=child)
+    print("hi")
+    if form.is_valid():
+      form.save()
+      return render(request, 'users/edit_child.html', {
+        'form': form,
+        'success': True
+      })
+  else:
+    print("hello")
+    child = Child.objects.get(pk=id)
+    form = ChildForm(instance=child)
+    return render(request, 'users/edit_child.html', {
+    'form': form
+  })
+
+def delete_child(request, id):
+  if request.method == 'POST':
+    child = Child.objects.get(pk=id)
+    child.delete()
+  return HttpResponseRedirect(reverse('index'))

@@ -1,0 +1,29 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+{% if success %}
+<center><div class="alert alert-dismissible alert-info mt-4 col-5 ">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    The new student updated successfully.
+    <a href="{% url 'childlist' %}" class="alert-link">Go to Child List.</a>
+  </div></center>
+{% else %}
+{% endif %}
+<div class="row justify-content-center mt-4">
+    <div class="col-4">
+        <div class="card bg-dark mb-3" style="max-width: 25rem;">
+            <div class="card-header">
+                <i class="fa-solid fa-pen-to-square fa-lg"></i></i>Update Child Records
+            </div>
+            <div class="card-body">
+              <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a href="{% url 'childlist' %}" class="btn btn-secondary">Cancel</a>
+              </form>
+            </div>
+          </div>
+    </div>
+</div>
+{% endblock content %} 
