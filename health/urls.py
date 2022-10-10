@@ -10,9 +10,9 @@ from users.views import CustomLoginView, ResetPasswordView, ChangePasswordView
 
 from users.forms import LoginForm
 
-admin.site.site_header = "CGMS Admin"
-admin.site.site_title = "CGMS Admin Portal"
-admin.site.index_title = "Welcome to CGMS Portal"
+admin.site.site_header = "Personal Health Care Guide Admin"
+admin.site.site_title = "Personal Health Care Guide Admin Portal"
+admin.site.index_title = "Welcome to Personal Health Care Guide Portal"
 
 urlpatterns = [
     path('admin/', admin.site.urls),

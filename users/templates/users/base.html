@@ -8,31 +8,52 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-
+    
     <!--Font awesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-    <title> CGMS | {% block title %}{% endblock %} </title>
+    <title>{% block title %}{% endblock %} </title>
 </head>
 <body>
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">CGMS</a>
+      <a class="navbar-brand" href="/"><i class="fa-solid fa-user-nurse"></i> Personal Health Care Guide</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link active" href="{% url 'index' %}">Home
-              <span class="visually-hidden">(current)</span>
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'index' %}"><i class="fa-solid fa-house"></i> Home
             </a>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link active" href="{% url 'childlist' %}">Children
-              <span class="visually-hidden">(current)</span>
+            <a class="nav-link" href="{% url 'bmi' %}"><i class="fa-solid fa-calculator"></i> BMI
+            </a>
+          </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'diet_plan' %}"><i class="fa-solid fa-heart"></i> Dietary Plan
+            </a>
+          </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'diet_supplement' %}"><i class="fa-solid fa-heart-pulse"></i> Diet Supplement
+            </a>
+          </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'activities' %}"><i class="fa-solid fa-dumbbell"></i> Physical Activities
+            </a>
+          </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'common_illness' %}"><i class="fa-solid fa-disease"></i> Common Illness
             </a>
           </li>
           {% endif %}
@@ -75,7 +96,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- A plugin for password show/hide  -->
-<script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.21.1/dist/bootstrap-table.min.js"></script>
 
 </body>
 </html>
