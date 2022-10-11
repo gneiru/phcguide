@@ -60,6 +60,11 @@
         </ul>
         <form class="d-flex">
           <ul class="navbar-nav me-auto">
+            {% if user.is_staff or user.is_superuser %}
+            <li class="nav-item">
+              <a href="/admin/" class="nav-link">Admin Portal</a>
+            </li>
+          {% endif %}
           {% if user.is_authenticated %}
             <li class="nav-item">
               <a href="{% url 'users-profile' %}" class="nav-link">Profile</a>

@@ -3,6 +3,69 @@
 BMI Calculator
 {% endblock title %}
 {% block content %}
+<div class="container">
+    <div class="row">
+    <div class="col-sm-3">
+        <div class="container-fluid mt-5">
+            <div class="card border-info" style="width: 20rem;">
+                <div class="card-header">
+                    <div>BMI Calculator</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-content">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" placeholder="Weight (kg)" id="weight">
+                                    <label for="weight">Weight (kg)</label>
+                                </div>
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" placeholder="Height (cm)" id="height">
+                                    <label for="height">Height (cm)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <HR>
+                        <button type="submit" class="btn btn-dark btn-lg" onclick="calculateBMI()">Calculate</button>
+                        <input type="reset" class="btn btn-secondary btn-lg" onclick="formREset()" value="Reset">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2"></div>
+    <div class="col-sm-7">
+        <div class="container-fluid mt-5">
+            <h2 id="bmi">Your BMI is - </h2>
+            <p id="description"><small>This line of text explains your BMI.</small></p>
+            <p>Recommended Dietary Plan: <br></p>
+            <p id="reco">1. </p>
+        </div>
+    </div>
+    </div>
+</div>
+<script>
+    function calculateBMI() {
 
+        var height = document.getElementById('height').value
+        var weight = document.getElementById('weight').value
+        var BMI = weight/((height/100)**2); 
+        document.getElementById('bmi').innerHTML = "Your BMI is " + BMI.toFixed(2)
+
+        if(BMI < 18.5){
+            document.getElementById('description').innerHTML = "Your BMI falls within the UNDERWEIGHT range";    
+        }else if((BMI > 18.5) && (BMI < 24.9)){
+            document.getElementById('description').innerHTML = "Your BMI falls within the NORMAL or healthy weight range";
+        }else if((BMI > 25) && (BMI < 29.9 )){
+            document.getElementById('description').innerHTML = "Your BMI falls within the OVERWEIGHT range";
+        }else{
+            document.getElementById('description').innerHTML = "Your BMI falls within the OBESE range";
+        }
+    }
+    function formREset(){
+        document.getElementById('height').value = ''
+        document.getElementById('weight').value = ''
+    }
+</script>
 
 {% endblock content%}

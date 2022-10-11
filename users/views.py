@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from .models import Illness, PhysicalActivities, DietPlan, DietSupplement
 
-from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm
+from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm, BMIForm
 
 
 def index(request):
@@ -101,28 +101,20 @@ def profile(request):
 @login_required
 def bmi(request):
     return render(request, 'users/logged/bmi.html', {
-        'children': Child.objects.all()
+        'bmi_form': BMIForm
     })
 @login_required
 def diet_plan(request):
-    return render(request, 'users/logged/diet_plan.html', {
-        'diet_plan': Child.objects.all()
-    })
+    return render(request, 'users/logged/diet_plan.html')
 
 @login_required
 def diet_supplement(request):
-    return render(request, 'users/logged/diet_supplement.html', {
-        'children': Child.objects.all()
-    })
+    return render(request, 'users/logged/diet_supplement.html')
 
 @login_required
 def activities(request):
-    return render(request, 'users/logged/activities.html', {
-        'children': Child.objects.all()
-    })
+    return render(request, 'users/logged/activities.html')
 
 @login_required
 def common_illness(request):
-    return render(request, 'users/logged/common_illness.html', {
-        'children': Child.objects.all()
-    })
+    return render(request, 'users/logged/common_illness.html')

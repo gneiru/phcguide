@@ -84,5 +84,10 @@ class UpdateProfileForm(forms.ModelForm):
         model = Profile
         fields = []
 
+class BMIForm(forms.ModelForm):
+    height = forms.IntegerField(required=True)
+    weight = forms.IntegerField(required=True)
+
+
 
                                
