@@ -1,8 +1,27 @@
 {% extends "users/base.html" %}
+
 {% block title %}
 Physical Activities
 {% endblock title %}
 {% block content %}
+{% if activities %}
 
+<div class="container">
+    <h3 class="m-4">Physical Activities</h3>
+    <hr>
+        <div class="d-flex flex-wrap">
+            {% for act in activities %}
+            <div class="px-3 mb-5">
+                <iframe width="520" height="290" src="{{act.url}}"></iframe>
+                <div class="d-flex justify-content-start"><h6>{{act.title}}
+                <br>{{act.description}}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+</div>
+{% else %}
+<h5 class="alert alert-primary m-4">No Physical Activities Records</h5>
+{% endif %}
 
 {% endblock content%}

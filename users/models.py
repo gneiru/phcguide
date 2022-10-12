@@ -1,8 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from PIL import Image
-from embed_video.fields import EmbedVideoField
-
 
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):
@@ -18,7 +15,7 @@ class Illness(models.Model):
     symptoms = models.CharField(max_length=200)
     description = models.CharField(max_length=500, blank=True)
     treatment = models.CharField(max_length=50, blank=True)
-    image = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=None, blank=True)
+    img = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=None, blank=True)
 
     def __str__(self):
         return self.name
@@ -30,7 +27,7 @@ class PhysicalActivities(models.Model):
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=150, blank=True)
     added = models.DateTimeField(auto_now_add=True)
-    url = EmbedVideoField()
+    url = models.CharField(max_length=50)
     
     def __str__(self):
         return self.title

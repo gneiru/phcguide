@@ -113,8 +113,13 @@ def diet_supplement(request):
 
 @login_required
 def activities(request):
-    return render(request, 'users/logged/activities.html')
-
+    return render(request, 'users/logged/activities.html', {
+        'activities': PhysicalActivities.objects.all()
+    })
+    
 @login_required
 def common_illness(request):
-    return render(request, 'users/logged/common_illness.html')
+    return render(request, 'users/logged/common_illness.html',{
+        'illnesses': Illness.objects.all()
+        
+    })
