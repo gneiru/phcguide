@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -109,8 +109,18 @@ def diet_plan(request):
 
 @login_required
 def diet_supplement(request):
-    return render(request, 'users/logged/diet_supplement.html')
-
+    if request.GET.get('classification'):
+        return render(request, 'users/logged/diet_supplement.html', {
+            'supplements': DietSupplement.objects.filter(classification=request.GET.get('classification'))
+        })
+    elif request.GET.get('category'):
+        return render(request, 'users/logged/diet_supplement.html', {
+            'supplements': DietSupplement.objects.filter(category=request.GET.get('category'))
+        })
+    else:
+        return render(request, 'users/logged/diet_supplement.html', {
+            'supplements': DietSupplement.objects.all()
+        })
 @login_required
 def activities(request):
     return render(request, 'users/logged/activities.html', {
