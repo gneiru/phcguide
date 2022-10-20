@@ -37,9 +37,9 @@ BMI Calculator
     <div class="col-sm-7">
         <div class="container-fluid mt-5">
             <h2 id="bmi">Your BMI is - </h2>
-            <p>Your BMI falls within the <strong id="description"> ____</strong> weight range</p>
-            <strong>Recommended: <br></strong>
-            <p id="reco"> </span>
+            <p id="description"><small>This line of text shows the range of your BMI.</small></p>
+            <p>Recommended Dietary Plan: <br></p>
+            <p id="reco">1. </p>
         </div>
     </div>
     </div>
@@ -49,53 +49,18 @@ BMI Calculator
 
         var height = document.getElementById('height').value
         var weight = document.getElementById('weight').value
-        var BMI = weight/((height/100)**2);
-        if(!(isNaN(BMI))){
-            document.getElementById('bmi').innerHTML = "Your BMI is " + BMI.toFixed(2)
-        }else{
-            document.getElementById('bmi').innerHTML = "Your BMI is Unidentified"
-        } 
+        var BMI = weight/((height/100)**2); 
+        document.getElementById('bmi').innerHTML = "Your BMI is " + BMI.toFixed(2)
+
         if(BMI < 18.5){
-            document.getElementById('description').innerHTML = "Underweight";
-            let text1 = "• Underweight Diet Plan";
-            let diet = text1.link("{% url 'diet_plan' %}?classification=underweight");
-            let text2 = "• Underweight Diet Supplement"
-            let suppl = text2.link("{% url 'diet_supplement' %}?classification=underweight");
-            let text3 = "• Underweight Physical Activities"
-            let workout = text3.link("{% url 'activities' %}?classification=underweight");
-            document.getElementById("reco").innerHTML = diet.concat("<br>", suppl, "<br>", workout);
+            document.getElementById('description').innerHTML = "Your BMI falls within the UNDERWEIGHT range";    
         }else if((BMI > 18.5) && (BMI < 24.9)){
-            document.getElementById('description').innerHTML = "Normal";
-            let text1 = "• Normal Diet Plan";
-            let diet = text1.link("{% url 'diet_plan' %}?classification=normal");
-            let text2 = "• Normal Diet Supplement"
-            let suppl = text2.link("{% url 'diet_supplement' %}?classification=normal");
-            let text3 = "• Normal Physical Activities"
-            let workout = text3.link("{% url 'activities' %}?classification=normal");
-            document.getElementById("reco").innerHTML = diet.concat("<br>", suppl, "<br>", workout);
+            document.getElementById('description').innerHTML = "Your BMI falls within the NORMAL or healthy weight range";
         }else if((BMI > 25) && (BMI < 29.9 )){
-            document.getElementById('description').innerHTML = "overweight";
-            let text1 = "• Overweight Diet Plan";
-            let diet = text1.link("{% url 'diet_plan' %}?classification=overweight");
-            let text2 = "• Overweight Diet Supplement"
-            let suppl = text2.link("{% url 'diet_supplement' %}?classification=overweight");
-            let text3 = "• Overweight Physical Activities"
-            let workout = text3.link("{% url 'activities' %}?classification=overweight");
-            document.getElementById("reco").innerHTML = diet.concat("<br>", suppl, "<br>", workout);
-        }else if (BMI > 29.9){
-            document.getElementById('description').innerHTML = "Obese";
-            let text1 = "• Obese Diet Plan";
-            let diet = text1.link("{% url 'diet_plan' %}?classification=obese");
-            let text2 = "• Obese Diet Supplement"
-            let suppl = text2.link("{% url 'diet_supplement' %}?classification=obese");
-            let text3 = "• Obese Physical Activities"
-            let workout = text3.link("{% url 'activities' %}?classification=obese");
-            document.getElementById("reco").innerHTML = diet.concat("<br>", suppl, "<br>", workout);
+            document.getElementById('description').innerHTML = "Your BMI falls within the OVERWEIGHT range";
         }else{
-            document.getElementById('description').innerHTML = "Unidentified";
-            document.getElementById("reco").innerHTML = "None";
+            document.getElementById('description').innerHTML = "Your BMI falls within the OBESE range";
         }
-        
     }
     function formREset(){
         document.getElementById('height').value = ''

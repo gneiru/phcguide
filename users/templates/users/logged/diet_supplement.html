@@ -3,34 +3,6 @@
 Diet Supplement
 {% endblock title %}
 {% block content %}
-{% if supplements %}
-<div class="container-fluid">
-    <h3 class="mx-5 mt-5">Diet Supplements<hr></h3>
-    
-        <div class="table-responsive mx-5">
-            <table class="table table-dark table-striped">
-                <thead class="table table-primary">
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th> 
-                    <th scope="col">Category</th>
-                    <th scope="col">Classification</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for supplement in supplements %}
-                    <tr>
-                        <td>{{supplement.name}}</td>
-                        <td>{{supplement.description}}</td>
-                        <td>{{supplement.category}}</td>
-                        <td>{{supplement.classification}}</td>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-{% else %}
-<h5 class="alert alert-primary m-4">No Records</h5>
-{% endif %} 
+
 
 {% endblock content%}

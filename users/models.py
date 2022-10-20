@@ -7,6 +7,7 @@ class Profile(models.Model):
     User._meta.get_field('email')._unique = True
     def __str__(self):
         return self.user.username
+<<<<<<< HEAD
     
 class Illness(models.Model):
     id = models.AutoField(primary_key=True)
@@ -63,3 +64,16 @@ class DietPlan(models.Model):
 
 
     
+=======
+
+    # resizing images
+    def save(self, *args, **kwargs):
+        super().save()
+
+        img = Image.open(self.avatar.path)
+
+        if img.height > 100 or img.width > 100:
+            new_img = (100, 100)
+            img.thumbnail(new_img)
+            img.save(self.avatar.path)
+>>>>>>> parent of 0478e96 (Initial)

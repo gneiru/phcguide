@@ -82,6 +82,7 @@ class UpdateUserForm(forms.ModelForm):
 class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
+<<<<<<< HEAD
         fields = []
 
 class BMIForm(forms.ModelForm):
@@ -91,3 +92,6 @@ class BMIForm(forms.ModelForm):
 
 
                                
+=======
+        fields = ['avatar', 'bio']
+>>>>>>> parent of 0478e96 (Initial)
