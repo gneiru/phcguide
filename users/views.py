@@ -11,7 +11,7 @@ from .models import Illness, PhysicalActivities, DietPlan, DietSupplement
 from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm, BMIForm
 
 
-def home(request):
+def index(request):
     return render(request, 'users/home.html')
 
 

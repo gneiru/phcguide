@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from django.urls import path, include
-from django.conf.urls import url
+from django.urls import path, include, re_path
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -11,13 +10,10 @@ from users.views import CustomLoginView, ResetPasswordView, ChangePasswordView
 
 from users.forms import LoginForm
 
-<<<<<<<< HEAD:health/urls.py
 admin.site.site_header = "Personal Health Care Guide Admin"
 admin.site.site_title = "Personal Health Care Guide Admin Portal"
 admin.site.index_title = "Welcome to Personal Health Care Guide Portal"
 
-========
->>>>>>>> parent of 0478e96 (Initial):user_management/urls.py
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -40,6 +36,6 @@ urlpatterns = [
 
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
 
-    url(r'^oauth/', include('social_django.urls', namespace='social')),
+    re_path(r'^oauth/', include('social_django.urls', namespace='social')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
