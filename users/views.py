@@ -105,7 +105,18 @@ def bmi(request):
     })
 @login_required
 def diet_plan(request):
-    return render(request, 'users/logged/diet_plan.html')
+    if request.GET.get('classification'):
+        return render(request, 'users/logged/diet_plan.html', {
+            'plans': DietPlan.objects.filter(classification=request.GET.get('classification'))
+        })
+    elif request.GET.get('category'):
+        return render(request, 'users/logged/diet_plan.html', {
+            'plans': DietPlan.objects.filter(category=request.GET.get('category'))
+        })
+    else:
+        return render(request, 'users/logged/diet_plan.html', {
+            'plans': DietPlan.objects.all()
+        })
 
 @login_required
 def diet_supplement(request):
