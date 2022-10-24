@@ -64,7 +64,7 @@ BMI Calculator
             let text3 = "• Underweight Physical Activities"
             let workout = text3.link("{% url 'activities' %}?classification=underweight");
             document.getElementById("reco").innerHTML = diet.concat("<br>", suppl, "<br>", workout);
-        }else if((BMI > 18.5) && (BMI < 24.9)){
+        }else if((BMI > 18.4) && (BMI < 25.1)){
             document.getElementById('description').innerHTML = "Normal";
             let text1 = "• Normal Diet Plan";
             let diet = text1.link("{% url 'diet_plan' %}?classification=normal");
@@ -73,7 +73,7 @@ BMI Calculator
             let text3 = "• Normal Physical Activities"
             let workout = text3.link("{% url 'activities' %}?classification=normal");
             document.getElementById("reco").innerHTML = diet.concat("<br>", suppl, "<br>", workout);
-        }else if((BMI > 25) && (BMI < 29.9 )){
+        }else if((BMI > 25) && (BMI < 30 )){
             document.getElementById('description').innerHTML = "overweight";
             let text1 = "• Overweight Diet Plan";
             let diet = text1.link("{% url 'diet_plan' %}?classification=overweight");
