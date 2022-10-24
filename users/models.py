@@ -10,7 +10,7 @@ class Profile(models.Model):
     
 class Illness(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50,unique=True)
     added = models.DateTimeField(auto_now_add=True)
     symptoms = models.CharField(max_length=200)
     description = models.CharField(max_length=500, blank=True)
@@ -24,7 +24,7 @@ class Illness(models.Model):
 
 class PhysicalActivities(models.Model):
     id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50,unique=True)
     description = models.CharField(max_length=150, blank=True)
     added = models.DateTimeField(auto_now_add=True)
     url = models.CharField(max_length=50)
@@ -37,7 +37,7 @@ class PhysicalActivities(models.Model):
 class DietSupplement(models.Model):
     id = models.AutoField(primary_key=True)
     category = models.CharField(max_length=50, choices=(('vitamins', 'VITAMINS'),('food', 'FOOD'),), default = 'vitamins')
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50,unique=True)
     description = models.CharField(max_length=300, blank=True)
     classification = models.CharField(max_length=50, choices=(
     ('underweight','UNDERWEIGHT'),
@@ -50,11 +50,17 @@ class DietSupplement(models.Model):
 
 class DietPlan(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50,unique=True)
     breakfast = models.CharField(max_length=150)
     snacks = models.CharField(max_length=150)
     lunch = models.CharField(max_length=150)
     dinner = models.CharField(max_length=150)
+    classification = models.CharField(max_length=50, choices=(
+    ('underweight','UNDERWEIGHT'),
+    ('overweight', 'OVERWEIGHT'),
+    ('obese','OBESE'),
+    ('normal','NORMAL'),), default='normal')
+
 
     def __str__(self):
         return self.name
