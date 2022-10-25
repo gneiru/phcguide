@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
-from .models import Profile
+from .models import Profile, DietSchedule
 
 
 class RegisterForm(UserCreationForm):
@@ -88,6 +88,9 @@ class BMIForm(forms.ModelForm):
     height = forms.IntegerField(required=True)
     weight = forms.IntegerField(required=True)
 
-
+class MakePlansForm(forms.ModelForm):    
+    class Meta:
+        model = DietSchedule
+        fields = ['sunday', 'monday', 'tuesday', 'wednesday','thursday', 'friday','saturday']
 
                                

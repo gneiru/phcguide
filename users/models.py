@@ -24,13 +24,18 @@ class Illness(models.Model):
 
 class PhysicalActivities(models.Model):
     id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=50,unique=True)
+    title = models.CharField(max_length=50)
     description = models.CharField(max_length=150, blank=True)
     added = models.DateTimeField(auto_now_add=True)
     url = models.CharField(max_length=50)
+    classification = models.CharField(max_length=50, choices=(
+    ('underweight','UNDERWEIGHT'),
+    ('overweight', 'OVERWEIGHT'),
+    ('obese','OBESE'),
+    ('normal','NORMAL'),), default='normal')
     
     def __str__(self):
-        return self.title
+        return f"{self.classification}: {self.title}"
     class Meta:
         ordering = ['-added']
 
@@ -64,6 +69,19 @@ class DietPlan(models.Model):
 
     def __str__(self):
         return self.name
+
+class DietSchedule(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    sunday = models.ForeignKey(DietPlan, on_delete=models.SET_NULL, null=True, related_name='sunday')
+    monday = models.ForeignKey(DietPlan, on_delete=models.SET_NULL, null=True, related_name='monday')
+    tuesday = models.ForeignKey(DietPlan, on_delete=models.SET_NULL, null=True, related_name='tuesday')
+    wednesday = models.ForeignKey(DietPlan, on_delete=models.SET_NULL, null=True, related_name='wednesday')
+    thursday = models.ForeignKey(DietPlan, on_delete=models.SET_NULL, null=True, related_name='thursday')
+    friday = models.ForeignKey(DietPlan, on_delete=models.SET_NULL, null=True, related_name='friday')
+    saturday = models.ForeignKey(DietPlan, on_delete=models.SET_NULL, null=True, related_name='saturday')
+
+    def __str__(self):
+        return f"DietSched of {self.user}"  
     
     
 

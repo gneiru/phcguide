@@ -8,18 +8,35 @@ Physical Activities
 
 <div class="container">
     <h3 class="m-4">Physical Activities</h3>
-    <hr>
-        <div class="d-flex flex-wrap">
+    <hr><input type="text" class="form-control m-3" id="searchbar" onkeyup="search_()" placeholder="Search ..">
+        <div class="d-flex flex-wrap rounded-circle">
             {% for act in activities %}
             <div class="px-3 mb-5">
                 <iframe width="520" height="290" src="{{act.url}}"></iframe>
-                <div class="d-flex justify-content-start"><h6>{{act.title}}
-                <br>{{act.description}}
+                <div class="d-flex justify-content-start"><h4>{{act.title}}<br>
                 </div>
+                {{act.description}}
+                <br>{{act.classification}}
             </div>
             {% endfor %}
         </div>
 </div>
+<script>
+    function search_() {
+        let input = document.getElementById('searchbar').value
+        input=input.toLowerCase();
+        let x = document.getElementsByClassName('px-3 mb-5');
+          
+        for (i = 0; i < x.length; i++) { 
+            if (!x[i].innerHTML.toLowerCase().includes(input)) {
+                x[i].style.display="none";
+            }
+            else {
+                x[i].style.display="list-item";                 
+            }
+        }
+    }
+</script>
 {% else %}
 <h5 class="alert alert-primary m-4">No Physical Activities Records</h5>
 {% endif %}

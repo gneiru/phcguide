@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 
-from .models import Profile
+from .models import Profile, DietSchedule
 
 
 @receiver(post_save, sender=User)
@@ -15,3 +15,7 @@ def create_profile(sender, instance, created, **kwargs):
 def save_profile(sender, instance, **kwargs):
     instance.profile.save()
 
+@receiver(post_save, sender=DietSchedule)
+def create_schedule(sender, instance, created, **kwargs):
+    if created:
+        DietSchedule.objects.create(user=instance)

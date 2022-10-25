@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
 from django.contrib import messages
@@ -6,10 +7,11 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from .models import Illness, PhysicalActivities, DietPlan, DietSupplement
+from .models import Illness, PhysicalActivities, DietPlan, DietSupplement, DietSchedule
 
-from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm, BMIForm
+from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm, BMIForm, MakePlansForm
 
+import random 
 
 def index(request):
     return render(request, 'users/home.html')
@@ -113,10 +115,13 @@ def diet_plan(request):
         return render(request, 'users/logged/diet_plan.html', {
             'plans': DietPlan.objects.filter(category=request.GET.get('category'))
         })
-    else:
+    if request.GET.get('generate'):
         return render(request, 'users/logged/diet_plan.html', {
-            'plans': DietPlan.objects.all()
+            'plans_1': ([random.choice(list(DietPlan.objects.filter(classification=request.GET.get('generate')))) for _ in range(7)]),
+            'days': ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         })
+    else:
+        return render(request, 'users/logged/diet_plan.html', {'plans': DietPlan.objects.all()})
 
 @login_required
 def diet_supplement(request):
@@ -134,9 +139,14 @@ def diet_supplement(request):
         })
 @login_required
 def activities(request):
-    return render(request, 'users/logged/activities.html', {
-        'activities': PhysicalActivities.objects.all()
-    })
+    if request.GET.get('classification'):
+        return render(request, 'users/logged/activities.html', {
+            'activities': PhysicalActivities.objects.filter(classification=request.GET.get('classification'))
+        })
+    else:
+        return render(request, 'users/logged/activities.html', {
+            'activities': PhysicalActivities.objects.all()
+        })
     
 @login_required
 def common_illness(request):
