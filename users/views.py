@@ -116,9 +116,10 @@ def diet_plan(request):
             'plans': DietPlan.objects.filter(category=request.GET.get('category'))
         })
     if request.GET.get('generate'):
+        list1 = [random.choice(list(DietPlan.objects.filter(classification=request.GET.get('generate')))) for _ in range(7)]
+        days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         return render(request, 'users/logged/diet_plan.html', {
-            'plans_1': ([random.choice(list(DietPlan.objects.filter(classification=request.GET.get('generate')))) for _ in range(7)]),
-            'days': ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+            'plans_1': list1 , 'days': days
         })
     else:
         return render(request, 'users/logged/diet_plan.html', {'plans': DietPlan.objects.all()})
