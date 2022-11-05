@@ -10,7 +10,7 @@
                         <div class="card-header d-flex justify-content-center">Sign In
                         </div>
                         {% if form.errors %}
-                        <div class="alert alert-dismissible alert-primary">
+                        <div class="alert alert-dismissible alert-warning">
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             <div id="form_errors">
                                 {% for key, value in form.errors.items %}
