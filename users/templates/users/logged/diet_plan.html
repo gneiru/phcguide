@@ -51,8 +51,8 @@ Diet Plan
             </div>
             </div>
             {% if plans %}
-            <table class="table table-dark table-striped mt-3">
-                <thead class="table table-primary">
+            <table class="table table-light table-striped mt-3">
+                <thead class="table table-info">
                 <tr>
                     <th scope="col">Plan</th>
                     <th scope="col">Breakfast</th>
@@ -76,10 +76,27 @@ Diet Plan
                 {% endfor %}
                 </tbody>
             </table>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if plans.has_previous %}
+                        <a href="?page=1" class="text-decoration-none">&laquo; First</a>
+                        <a class="text-decoration-none" href="?page={{ plans.previous_page_number }}">Previous</a>
+                    {% endif %}
+            
+                    <span class="current">
+                       Page {{ plans.number }} of {{ plans.paginator.num_pages }}.
+                    </span>
+            
+                    {% if plans.has_next %}
+                        <a class="text-decoration-none" href="?page={{ plans.next_page_number }}">Next</a>
+                        <a class="text-decoration-none" href="?page={{ plans.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
             {% elif plans_1 %}
                 <div class="table-responsive col-md-10">
-                    <table class="table table-dark table-striped mt-3">
-                        <thead class="table table-primary">
+                    <table class="table table-dark mt-3">
+                        <thead class="table table-info">
                         <tr>
                             <th scope="col-md-1">Plan<br>(Day 1-7)</th>
                             <th scope="col">Breakfast</th>
@@ -101,6 +118,7 @@ Diet Plan
                         {% endfor %}
                         </tbody>
                     </table>
+                    
                     {% else %}
                         <h5 class="alert alert-primary m-4">No Plan Records</h5>
                     {% endif %} 

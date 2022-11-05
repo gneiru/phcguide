@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
+from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -107,51 +108,102 @@ def bmi(request):
     })
 @login_required
 def diet_plan(request):
+    
     if request.GET.get('classification'):
+        stuff = DietPlan.objects.filter(classification=request.GET.get('classification'))
+        p = Paginator(stuff, 10)
+        print(p.num_pages)
+        page = request.GET.get('page',1)
+
+        try:
+            page = p.page(page)
+        except EmptyPage:
+            page = p.page(1)
+
         return render(request, 'users/logged/diet_plan.html', {
-            'plans': DietPlan.objects.filter(classification=request.GET.get('classification'))
+            'plans': page
         })
     elif request.GET.get('category'):
+        stuff = DietPlan.objects.filter(category=request.GET.get('category'))
+        p = Paginator(stuff, 10)
+        print(p.num_pages)
+        page = request.GET.get('page',1)
+
+        try:
+            page = p.page(page)
+        except EmptyPage:
+            page = p.page(1)
         return render(request, 'users/logged/diet_plan.html', {
-            'plans': DietPlan.objects.filter(category=request.GET.get('category'))
+            'plans': page
         })
     if request.GET.get('generate'):
         list1 = [random.choice(list(DietPlan.objects.filter(classification=request.GET.get('generate')))) for _ in range(7)]
-        days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         return render(request, 'users/logged/diet_plan.html', {
-            'plans_1': list1 , 'days': days
+            'plans_1': list1
         })
     else:
-        return render(request, 'users/logged/diet_plan.html', {'plans': DietPlan.objects.all()})
+        stuff = DietPlan.objects.all()
+        p = Paginator(stuff, 10)
+        print(p.num_pages)
+        page = request.GET.get('page',1)
+
+        try:
+            page = p.page(page)
+        except EmptyPage:
+            page = p.page(1)
+
+        return render(request, 'users/logged/diet_plan.html', {'plans': page})
 
 @login_required
 def diet_supplement(request):
     if request.GET.get('classification'):
-        return render(request, 'users/logged/diet_supplement.html', {
-            'supplements': DietSupplement.objects.filter(classification=request.GET.get('classification'))
-        })
+        stuff = DietSupplement.objects.filter(classification=request.GET.get('classification'))
     elif request.GET.get('category'):
-        return render(request, 'users/logged/diet_supplement.html', {
-            'supplements': DietSupplement.objects.filter(category=request.GET.get('category'))
-        })
+        stuff = DietSupplement.objects.filter(category=request.GET.get('category'))
     else:
-        return render(request, 'users/logged/diet_supplement.html', {
-            'supplements': DietSupplement.objects.all()
+        stuff =  DietSupplement.objects.all()
+
+    p = Paginator(stuff, 10)
+    page = request.GET.get('page',1)
+
+    try:
+        page = p.page(page)
+    except EmptyPage:
+        page = p.page(1)
+    
+    return render(request, 'users/logged/diet_supplement.html', {
+            'supplements': page
         })
 @login_required
 def activities(request):
+    
     if request.GET.get('classification'):
-        return render(request, 'users/logged/activities.html', {
-            'activities': PhysicalActivities.objects.filter(classification=request.GET.get('classification'))
-        })
+        stuff = PhysicalActivities.objects.filter(classification=request.GET.get('classification'))
     else:
-        return render(request, 'users/logged/activities.html', {
-            'activities': PhysicalActivities.objects.all()
-        })
+        stuff = PhysicalActivities.objects.all()
+    p = Paginator(stuff,10)
+    page = request.GET.get('page',1)
+
+    try:
+        page = p.page(page)
+    except EmptyPage:
+        page = p.page(1)
+    
+    return render(request, 'users/logged/activities.html', {
+        'activities': page
+    })
     
 @login_required
 def common_illness(request):
-    return render(request, 'users/logged/common_illness.html',{
-        'illnesses': Illness.objects.all()
-        
-    })
+    stuff = Illness.objects.all()
+    p = Paginator(stuff, 10)
+    page = request.GET.get('page',1)
+
+    try:
+        page = p.page(page)
+    except EmptyPage:
+        page = p.page(1)
+    
+    return render(request, 'users/logged/common_illness.html', {
+        'illnesses': page
+    }) 
