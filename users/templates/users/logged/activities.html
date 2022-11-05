@@ -15,10 +15,27 @@ Physical Activities
                 <iframe width="520" height="290" src="{{act.url}}"></iframe>
                 <div class="d-flex justify-content-start"><h4>{{act.title}}<br>
                 </div>
-                {{act.description}}
-                <br>{{act.classification}}
+                Description: {{act.description}}
+                <br>Class: {{act.classification}}
             </div>
             {% endfor %}
+        </div>
+        <div class="pagination">
+            <span class="step-links">
+                {% if activities.has_previous %}
+                    <a href="?page=1" class="text-decoration-none">&laquo; First</a>
+                    <a class="text-decoration-none" href="?page={{ activities.previous_page_number }}">Previous</a>
+                {% endif %}
+        
+                <span class="current">
+                   Page {{ activities.number }} of {{ activities.paginator.num_pages }}.
+                </span>
+        
+                {% if activities.has_next %}
+                    <a class="text-decoration-none" href="?page={{ activities.next_page_number }}">Next</a>
+                    <a class="text-decoration-none" href="?page={{ activities.paginator.num_pages }}">Last &raquo;</a>
+                {% endif %}
+            </span>
         </div>
 </div>
 <script>
