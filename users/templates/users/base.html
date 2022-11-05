@@ -66,12 +66,13 @@
             <li class="nav-item">
               <a href="/admin/" class="nav-link">Admin Portal</a>
             </li>
-          {% else %}
+          {% endif %}
+          {% if user.is_authenticated %}
+          {% if not user.is_staff or not user.is_superuser %}
             <li class="nav-item">
               <a href="{% url 'users-profile' %}" class="nav-link">Profile</a>
             </li>
           {% endif %}
-          {% if user.is_authenticated %}
             <li class="nav-item">
               <a href="{% url 'logout' %}" class="nav-link">Logout</a>
             </li>

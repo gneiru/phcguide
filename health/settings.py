@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'users.apps.UserConfig',
     
     'health',
-    'simple_pagination',
 ]
 
 MIDDLEWARE = [

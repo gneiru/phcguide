@@ -8,9 +8,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from .models import Illness, PhysicalActivities, DietPlan, DietSupplement, DietSchedule
+from .models import Illness, PhysicalActivities, DietPlan, DietSupplement
 
-from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm, BMIForm, MakePlansForm
+from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm, BMIForm
 
 import random 
 
