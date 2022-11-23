@@ -103,16 +103,34 @@ def profile(request):
 
 @login_required
 def bmi(request):
-    return render(request, 'users/logged/bmi.html', {
-        'bmi_form': BMIForm
-    })
+    if request.GET.get('weight') and request.GET.get('height'):
+        weight = request.GET.get('weight')
+        height = request.GET.get('height')
+        BMI = round(float(weight)/((float(height)/100)**2), 2)
+        if BMI < 18.5:
+            classification = "Underweight"
+        elif BMI > 18.4 and BMI < 25.1:
+            classification = "Normal"
+        elif BMI > 25 and BMI < 30:
+            classification = "Overweight"
+        elif BMI >= 30 and BMI < 35:
+            classification = "Obese"
+        elif BMI >=35:
+            classification = "Extremely Obese"
+        request.session['classification'] = classification
+        return render(request, 'users/logged/bmi.html', {
+            'bmi_form': BMIForm, 'classification': classification, 'bmi': BMI, 'reco': False,
+        })
+    else:   
+        return render(request, 'users/logged/bmi.html', {
+            'bmi_form': BMIForm,
+        })
 @login_required
 def diet_plan(request):
     
     if request.GET.get('classification'):
         stuff = DietPlan.objects.filter(classification=request.GET.get('classification'))
-        p = Paginator(stuff, 10)
-        print(p.num_pages)
+        p = Paginator(stuff, 7)
         page = request.GET.get('page',1)
 
         try:
@@ -121,12 +139,11 @@ def diet_plan(request):
             page = p.page(1)
 
         return render(request, 'users/logged/diet_plan.html', {
-            'plans': page
+            'plans': page, 'title': 'for ' + request.GET.get('classification') + ' BMI',
         })
     elif request.GET.get('category'):
         stuff = DietPlan.objects.filter(category=request.GET.get('category'))
         p = Paginator(stuff, 10)
-        print(p.num_pages)
         page = request.GET.get('page',1)
 
         try:
@@ -138,13 +155,18 @@ def diet_plan(request):
         })
     if request.GET.get('generate'):
         list1 = [random.choice(list(DietPlan.objects.filter(classification=request.GET.get('generate')))) for _ in range(7)]
+        daylist = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+        for i in range(7):
+            list1[i].day = daylist[i]
         return render(request, 'users/logged/diet_plan.html', {
             'plans_1': list1
         })
     else:
-        stuff = DietPlan.objects.all()
+        try:
+            stuff = DietPlan.objects.filter(classification=request.session['classification'])
+        except KeyError:
+            stuff = DietPlan.objects.all()
         p = Paginator(stuff, 10)
-        print(p.num_pages)
         page = request.GET.get('page',1)
 
         try:
@@ -161,8 +183,10 @@ def diet_supplement(request):
     elif request.GET.get('category'):
         stuff = DietSupplement.objects.filter(category=request.GET.get('category'))
     else:
-        stuff =  DietSupplement.objects.all()
-
+        try:
+            stuff = DietSupplement.objects.filter(classification=request.session['classification'])
+        except KeyError:
+            stuff = DietSupplement.objects.all()
     p = Paginator(stuff, 10)
     page = request.GET.get('page',1)
 
@@ -180,8 +204,11 @@ def activities(request):
     if request.GET.get('classification'):
         stuff = PhysicalActivities.objects.filter(classification=request.GET.get('classification'))
     else:
-        stuff = PhysicalActivities.objects.all()
-    p = Paginator(stuff,10)
+        try:
+            stuff = PhysicalActivities.objects.filter(classification=request.session['classification'])
+        except KeyError:
+            stuff = PhysicalActivities.objects.all()
+    p = Paginator(stuff,4)
     page = request.GET.get('page',1)
 
     try:

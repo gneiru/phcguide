@@ -29,10 +29,11 @@ class PhysicalActivities(models.Model):
     added = models.DateTimeField(auto_now_add=True)
     url = models.CharField(max_length=50)
     classification = models.CharField(max_length=50, choices=(
-    ('underweight','UNDERWEIGHT'),
-    ('overweight', 'OVERWEIGHT'),
-    ('obese','OBESE'),
-    ('normal','NORMAL'),), default='normal')
+    ('Underweight','UNDERWEIGHT'),
+    ('Normal','NORMAL'),
+    ('Overweight', 'OVERWEIGHT'),
+    ('Obese','OBESE'),
+    ('Extremely Obese','EXTREMELY OBESE'),), default='Normal')
     
     def __str__(self):
         return f"{self.classification}: {self.title}"
@@ -45,10 +46,11 @@ class DietSupplement(models.Model):
     name = models.CharField(max_length=50,unique=True)
     description = models.CharField(max_length=300, blank=True)
     classification = models.CharField(max_length=50, choices=(
-    ('underweight','UNDERWEIGHT'),
-    ('overweight', 'OVERWEIGHT'),
-    ('obese','OBESE'),
-    ('normal','NORMAL'),), default='normal')
+    ('Underweight','UNDERWEIGHT'),
+    ('Normal','NORMAL'),
+    ('Overweight', 'OVERWEIGHT'),
+    ('Obese','OBESE'),
+    ('Extremely Obese','EXTREMELY OBESE'),), default='Normal')
 
     def __str__(self):
         return self.category + ": "+self.name
@@ -61,11 +63,11 @@ class DietPlan(models.Model):
     lunch = models.CharField(max_length=150)
     dinner = models.CharField(max_length=150)
     classification = models.CharField(max_length=50, choices=(
-    ('underweight','UNDERWEIGHT'),
-    ('overweight', 'OVERWEIGHT'),
-    ('obese','OBESE'),
-    ('normal','NORMAL'),), default='normal')
-
+    ('Underweight','UNDERWEIGHT'),
+    ('Normal','NORMAL'),
+    ('Overweight', 'OVERWEIGHT'),
+    ('Obese','OBESE'),
+    ('Extremely Obese','EXTREMELY OBESE'),), default='Normal')
 
     def __str__(self):
         return self.name
