@@ -208,7 +208,7 @@ def activities(request):
             stuff = PhysicalActivities.objects.filter(classification=request.session['classification'])
         except KeyError:
             stuff = PhysicalActivities.objects.all()
-    p = Paginator(stuff,4)
+    p = Paginator(stuff,10)
     page = request.GET.get('page',1)
 
     try:
