@@ -6,9 +6,21 @@ Diet Supplement
 <div class="container-fluid">
     <h3 class="mx-5 mt-5">Diet Supplements<hr></h3>
     
-        <div class="table-responsive mx-5">
+        <div class="mx-5">
             <a href="?category=food" class="btn btn-info">Food</a>
-            <a href="?category=vitamins" class="btn btn-info">Vitamins</a>
+            <a href="?category=vitamins" class="btn btn-warning">Vitamins</a>
+            <div class="dropdown mx-3" style="float: right">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    Classification
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                    <li><a class="dropdown-item" href="?classification=Underweight">Underweight</a></li>
+                    <li><a class="dropdown-item" href="?classification=Normal">Normal</a></li>
+                    <li><a class="dropdown-item" href="?classification=Overweight">Overweight</a></li>
+                    <li><a class="dropdown-item" href="?classification=Obese">Obese</a></li>
+                    <li><a class="dropdown-item" href="?classification=Extremely Obese">Extremely Obese</a></li>
+                </ul>
+            </div>
             {% if supplements %}
             <table class="table mt-3">
                 <thead class="table table-light">
@@ -49,7 +61,7 @@ Diet Supplement
         </div>
     </div>
 {% else %}
-<h5 class="alert alert-primary m-4">No Records</h5>
+<h5 class="alert alert-light m-4">No Records</h5>
 {% endif %} 
 
 {% endblock content%}

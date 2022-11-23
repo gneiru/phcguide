@@ -25,6 +25,7 @@ BMI Calculator
                         <HR>
                         <button type="submit" class="btn btn-dark btn-lg" onclick="calculateBMI()">Calculate</button>
                         <input type="reset" class="btn btn-secondary btn-lg" onclick="formREset()" value="Reset">
+                        <button class="btn mt-2 btn-info btn-lg" id="save_button" onclick="">Save</button>
                     </div>
                 </div>
             </div>
@@ -33,9 +34,13 @@ BMI Calculator
     <div class="col-sm-2"></div>
     <div class="col-sm-7">
         <div class="container-fluid mt-5">
-            <h2 id="bmi">Your BMI is - </h2>
-            <p>Your BMI falls within the <strong id="description"> ____</strong> weight range</p>
-            <strong>Recommended: <br></strong>
+            <h2 id="bmi">Your BMI is 
+                {% if bmi %}{{bmi}} {% else %}___{% endif %}
+            </h2>
+            <p>Your BMI falls within the <strong id="description">
+                {% if classification %}{{classification}} {% else %}______{% endif %}
+            </strong> weight range</p>
+                {% if reco is False %} {% else %}<strong>Recommended: <br></strong>{% endif %}
             <p id="reco"> </span>
         </div>
     </div>
@@ -47,6 +52,7 @@ BMI Calculator
         var height = document.getElementById('height').value
         var weight = document.getElementById('weight').value
         var BMI = weight/((height/100)**2);
+        document.getElementById('save_button').setAttribute('onclick',`location.href='?weight=${weight}&height=${height}'`)
         if(!(isNaN(BMI))){
             document.getElementById('bmi').innerHTML = "Your BMI is " + BMI.toFixed(2)
         }else{
@@ -55,38 +61,47 @@ BMI Calculator
         if(BMI < 18.5){
             document.getElementById('description').innerHTML = "Underweight";
             let text1 = "• Underweight Diet Plan";
-            let diet = text1.link("{% url 'diet_plan' %}?classification=underweight");
+            let diet = text1.link("{% url 'diet_plan' %}?classification=Underweight");
             let text2 = "• Underweight Diet Supplement"
-            let suppl = text2.link("{% url 'diet_supplement' %}?classification=underweight");
+            let suppl = text2.link("{% url 'diet_supplement' %}?classification=Underweight");
             let text3 = "• Underweight Physical Activities"
-            let workout = text3.link("{% url 'activities' %}?classification=underweight");
+            let workout = text3.link("{% url 'activities' %}?classification=Underweight");
             document.getElementById("reco").innerHTML = diet.concat("<br>", suppl, "<br>", workout);
         }else if((BMI > 18.4) && (BMI < 25.1)){
             document.getElementById('description').innerHTML = "Normal";
             let text1 = "• Normal Diet Plan";
-            let diet = text1.link("{% url 'diet_plan' %}?classification=normal");
+            let diet = text1.link("{% url 'diet_plan' %}?classification=Normal");
             let text2 = "• Normal Diet Supplement"
-            let suppl = text2.link("{% url 'diet_supplement' %}?classification=normal");
+            let suppl = text2.link("{% url 'diet_supplement' %}?classification=Normal");
             let text3 = "• Normal Physical Activities"
-            let workout = text3.link("{% url 'activities' %}?classification=normal");
+            let workout = text3.link("{% url 'activities' %}?classification=Normal");
             document.getElementById("reco").innerHTML = diet.concat("<br>", suppl, "<br>", workout);
         }else if((BMI > 25) && (BMI < 30 )){
-            document.getElementById('description').innerHTML = "overweight";
+            document.getElementById('description').innerHTML = "Overweight";
             let text1 = "• Overweight Diet Plan";
-            let diet = text1.link("{% url 'diet_plan' %}?classification=overweight");
+            let diet = text1.link("{% url 'diet_plan' %}?classification=Overweight");
             let text2 = "• Overweight Diet Supplement"
-            let suppl = text2.link("{% url 'diet_supplement' %}?classification=overweight");
+            let suppl = text2.link("{% url 'diet_supplement' %}?classification=Overweight");
             let text3 = "• Overweight Physical Activities"
-            let workout = text3.link("{% url 'activities' %}?classification=overweight");
+            let workout = text3.link("{% url 'activities' %}?classification=Overweight");
             document.getElementById("reco").innerHTML = diet.concat("<br>", suppl, "<br>", workout);
-        }else if (BMI > 29.9){
+        }else if (BMI > 29.9 && BMI < 35){
             document.getElementById('description').innerHTML = "Obese";
             let text1 = "• Obese Diet Plan";
-            let diet = text1.link("{% url 'diet_plan' %}?classification=obese");
+            let diet = text1.link("{% url 'diet_plan' %}?classification=Obese");
             let text2 = "• Obese Diet Supplement"
-            let suppl = text2.link("{% url 'diet_supplement' %}?classification=obese");
+            let suppl = text2.link("{% url 'diet_supplement' %}?classification=Obese");
             let text3 = "• Obese Physical Activities"
-            let workout = text3.link("{% url 'activities' %}?classification=obese");
+            let workout = text3.link("{% url 'activities' %}?classification=Obese");
+            document.getElementById("reco").innerHTML = diet.concat("<br>", suppl, "<br>", workout);
+        }else if (BMI > 34.9){
+            document.getElementById('description').innerHTML = "Extremely Obese";
+            let text1 = "• Extremely Obese Diet Plan";
+            let diet = text1.link("{% url 'diet_plan' %}?classification=Extremely Obese");
+            let text2 = "• Extremely Obese Diet Supplement"
+            let suppl = text2.link("{% url 'diet_supplement' %}?classification=Extremely Obese");
+            let text3 = "• Extremely Obese Physical Activities"
+            let workout = text3.link("{% url 'activities' %}?classification=Extremely Obese");
             document.getElementById("reco").innerHTML = diet.concat("<br>", suppl, "<br>", workout);
         }else{
             document.getElementById('description').innerHTML = "Unidentified";

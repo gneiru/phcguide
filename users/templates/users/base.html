@@ -70,7 +70,7 @@
           {% if user.is_authenticated %}
           {% if not user.is_staff or not user.is_superuser %}
             <li class="nav-item">
-              <a href="{% url 'users-profile' %}" class="nav-link">Profile</a>
+              <a href="{% url 'users-profile' %}" class="nav-link">{{user.username}}'s Profile</a>
             </li>
           {% endif %}
             <li class="nav-item">

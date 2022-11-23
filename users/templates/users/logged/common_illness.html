@@ -3,12 +3,13 @@
     Common Illness
 {% endblock title %}
 {% block content %}
-    {% if illnesses %}
     
     <div class="container-fluid">
-        <h3 class="mx-5 mt-5">Common Illnesses<hr><input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search .."></h3>
+        <h3 class="mx-5 mt-5">Common Illnesses<hr></h3>
         
         <div class="table-responsive mx-5">
+            <input type="text" class="mb-4 rounded border border-dark px-3" style="float: right" id="myInput" onkeyup="myFunction()" placeholder="Search ..">
+            {% if illnesses %}
             <table class="table table-light table-striped" id="myTable">
                 <thead class="table">
                     <tr>
@@ -74,6 +75,6 @@
         document.querySelector('#myInput').addEventListener('keyup', filterTable, false);
     </script>
     {% else %}
-    <h5 class="alert alert-warning m-4">No Illness Records</h5>
+    <h5 class="alert alert-light m-4">No Illness Records</h5>
     {% endif %}
 {% endblock content%}

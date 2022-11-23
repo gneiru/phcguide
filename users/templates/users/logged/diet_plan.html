@@ -4,10 +4,10 @@ Diet Plan
 {% endblock title %}
 {% block content %}
 <div class="container-fluid">
-    <h3 class="mx-5 mt-5">Diet Plans<hr></h3>
+    <h3 class="mx-5 mt-5">Diet Plans {{title}}<hr></h3>
     
         <div class="table-responsive mx-5">
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                 Classification
             </button>
             <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -23,7 +23,8 @@ Diet Plan
                 Underweight = Less than 18.5 BMI<br>
                 Normal = 18.5 - 24.9 BMI<br>
                 Overweight = 25 - 29.9 BMI<br>
-                Obese = 30 BMI<br>
+                Obese = 30 - 34.9 BMI<br>
+                Extremely Obese = 35 above BMI<br>
 
                 </div>
                 <div class="dropdown mt-3">
@@ -31,10 +32,11 @@ Diet Plan
                     View Plans
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
-                    <li><a class="dropdown-item" href="?classification=underweight">Underweight</a></li>
-                    <li><a class="dropdown-item" href="?classification=normal">Normal</a></li>
-                    <li><a class="dropdown-item" href="?classification=overweight">Overweight</a></li>
-                    <li><a class="dropdown-item" href="?classification=obese">Obese</a></li>
+                    <li><a class="dropdown-item" href="?classification=Underweight">Underweight</a></li>
+                    <li><a class="dropdown-item" href="?classification=Normal">Normal</a></li>
+                    <li><a class="dropdown-item" href="?classification=Overweight">Overweight</a></li>
+                    <li><a class="dropdown-item" href="?classification=Obese">Obese</a></li>
+                    <li><a class="dropdown-item" href="?classification=Extremely Obese">Extremely Obese</a></li>
                 </ul>
                 </div>
                 <div class="dropdown mt-3">
@@ -46,6 +48,7 @@ Diet Plan
                         <li><a class="dropdown-item" href="?generate=normal">Normal</a></li>
                         <li><a class="dropdown-item" href="?generate=overweight">Overweight</a></li>
                         <li><a class="dropdown-item" href="?generate=obese">Obese</a></li>
+                        <li><a class="dropdown-item" href="?classification=xobese">Extremely Obese</a></li>
                     </ul>
                     </div>
             </div>
@@ -94,11 +97,15 @@ Diet Plan
                 </span>
             </div>
             {% elif plans_1 %}
+            <button class="btn btn-secondary float-right" onclick="window.location.reload();">
+                Regenerate
+             </button>
                 <div class="table-responsive col-md-10">
                     <table class="table table-dark mt-3">
                         <thead class="table table-info">
                         <tr>
-                            <th scope="col-md-1">Plan<br>(Day 1-7)</th>
+                            <th scope="col-md-1">Day</th>
+                            <th scope="col-md-1">Plan</th>
                             <th scope="col">Breakfast</th>
                             <th scope="col">Snacks</th>
                             <th scope="col">Lunch</th>
@@ -109,6 +116,7 @@ Diet Plan
                         <tbody>
                         {% for plan in plans_1%}
                             <tr>
+                                <td>{{plan.day}}</td>
                                 <td>{{plan.name}}</td>
                                 <td>{{plan.breakfast}}</td>
                                 <td>{{plan.snacks}}</td>
@@ -120,7 +128,7 @@ Diet Plan
                     </table>
                     
                     {% else %}
-                        <h5 class="alert alert-primary m-4">No Plan Records</h5>
+                        <h5 class="alert alert-light m-4">No Plan Records</h5>
                     {% endif %} 
             </div>
         </div>

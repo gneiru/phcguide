@@ -4,11 +4,24 @@
 Physical Activities
 {% endblock title %}
 {% block content %}
-{% if activities %}
 
 <div class="container">
-    <h3 class="m-4">Physical Activities</h3>
-    <hr><input type="text" class="form-control m-3" id="searchbar" onkeyup="search_()" placeholder="Search ..">
+    <h3 class="m-4">Physical Activities</h3>    
+    <hr>
+    <div class="dropdown mx-3 my-3">
+        <input type="text" class="mb-4 rounded border border-dark px-3" style="float: right" id="myInput" onkeyup="myFunction()" placeholder="Search ..">
+        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Classification
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+            <li><a class="dropdown-item" href="?classification=Underweight">Underweight</a></li>
+            <li><a class="dropdown-item" href="?classification=Normal">Normal</a></li>
+            <li><a class="dropdown-item" href="?classification=Overweight">Overweight</a></li>
+            <li><a class="dropdown-item" href="?classification=Obese">Obese</a></li>
+            <li><a class="dropdown-item" href="?classification=Extremely Obese">Extremely Obese</a></li>
+        </ul>
+    </div>
+    {% if activities %}
         <div class="d-flex flex-wrap rounded-circle">
             {% for act in activities %}
             <div class="px-3 mb-5">
@@ -39,8 +52,8 @@ Physical Activities
         </div>
 </div>
 <script>
-    function search_() {
-        let input = document.getElementById('searchbar').value
+    function myFunction() {
+        let input = document.getElementById('myInput').value
         input=input.toLowerCase();
         let x = document.getElementsByClassName('px-3 mb-5');
           
@@ -55,7 +68,7 @@ Physical Activities
     }
 </script>
 {% else %}
-<h5 class="alert alert-primary m-4">No Physical Activities Records</h5>
+<h5 class="alert alert-light m-4">No Physical Activities Records</h5>
 {% endif %}
 
 {% endblock content%}
