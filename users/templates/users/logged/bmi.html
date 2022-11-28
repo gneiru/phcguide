@@ -5,9 +5,8 @@ BMI Calculator
 {% block content %}
 <div class="container">
     <div class="row">
-    <div class="col-sm-3">
-        <div class="container-fluid mt-5">
-            <div class="card card-secondary" style="width: 20rem;">
+        <div class="col-4">
+            <div class="card card-secondary mx-2 my-5">
                 <div class="card-header">
                     <div>BMI Calculator</div>
                 </div>
@@ -23,27 +22,66 @@ BMI Calculator
                             </div>
                         </div>
                         <HR>
-                        <button type="submit" class="btn btn-dark btn-lg" onclick="calculateBMI()">Calculate</button>
-                        <input type="reset" class="btn btn-secondary btn-lg" onclick="formREset()" value="Reset">
-                        <button class="btn mt-2 btn-info btn-lg" id="save_button" onclick="">Save</button>
+                        <button type="submit" class="btn btn-dark" onclick="calculateBMI()">Calculate</button>
+                        <input type="reset" class="btn btn-secondary" onclick="formREset()" value="Clear">
+                        <button class="btn btn-info" id="save_button" onclick="" disabled>Save</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-sm-2"></div>
-    <div class="col-sm-7">
-        <div class="container-fluid mt-5">
-            <h2 id="bmi">Your BMI is 
-                {% if bmi %}{{bmi}} {% else %}___{% endif %}
-            </h2>
-            <p>Your BMI falls within the <strong id="description">
-                {% if classification %}{{classification}} {% else %}______{% endif %}
-            </strong> weight range</p>
-                {% if reco is False %} {% else %}<strong>Recommended: <br></strong>{% endif %}
-            <p id="reco"> </span>
+        <div class="col-8">
+            <div class="mt-5">
+                <h2>Your BMI is 
+                    <span id="bmi">{% if bmi %}{{bmi}} {% else %}___{% endif %}</span>
+                </h2>
+                <p>Your BMI falls within the <strong id="description">
+                    {% if classification %}{{classification}} {% else %}______{% endif %}
+                </strong> weight range</p>
+                    <strong id="reco_head"></strong>
+                <p id="reco"> </span>
+            </div>
+            <table class="table table-light table-striped" id="myTable">
+                <thead class="table">
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">BMI</th>
+                        <th scope="col">Classification</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                        <tr class="illn">
+                            <th scope="row">{{record.date}}</td>
+                            <td>{{record.bmi}}</td>
+                            <td>{{record.classification}}</td>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr class="illn">
+                            <th colspan=3 scope="row">No records</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if records.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ records.previous_page_number }}">previous</a>
+                    {% endif %}
+            
+                    <span class="current">
+                        Page {{ records.number }} of {{ records.paginator.num_pages }}.
+                    </span>
+            
+                    {% if records.has_next %}
+                        <a href="?page={{ records.next_page_number }}">next</a>
+                        <a href="?page={{ records.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+            
         </div>
-    </div>
     </div>
 </div>
 <script>
@@ -54,9 +92,9 @@ BMI Calculator
         var BMI = weight/((height/100)**2);
         document.getElementById('save_button').setAttribute('onclick',`location.href='?weight=${weight}&height=${height}'`)
         if(!(isNaN(BMI))){
-            document.getElementById('bmi').innerHTML = "Your BMI is " + BMI.toFixed(2)
+            document.getElementById('bmi').innerHTML = BMI.toFixed(2)
         }else{
-            document.getElementById('bmi').innerHTML = "Your BMI is Unidentified"
+            document.getElementById('bmi').innerHTML = "Unidentified"
         } 
         if(BMI < 18.5){
             document.getElementById('description').innerHTML = "Underweight";
@@ -107,11 +145,14 @@ BMI Calculator
             document.getElementById('description').innerHTML = "Unidentified";
             document.getElementById("reco").innerHTML = "None";
         }
+        document.getElementById('save_button').removeAttribute("disabled");
+        document.getElementById('reco_head').innerHTML = "Recommended: <br>"
         
     }
     function formREset(){
         document.getElementById('height').value = ''
         document.getElementById('weight').value = ''
+        document.getElementById('save_button').setAttribute("disabled","true");
     }
 </script>
 
