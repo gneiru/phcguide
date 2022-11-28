@@ -7,6 +7,23 @@ class Profile(models.Model):
     User._meta.get_field('email')._unique = True
     def __str__(self):
         return self.user.username
+
+class UserBMI(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    classification = classification = models.CharField(max_length=50, choices=(
+    ('Underweight','UNDERWEIGHT'),
+    ('Normal','NORMAL'),
+    ('Overweight', 'OVERWEIGHT'),
+    ('Obese','OBESE'),
+    ('Extremely Obese','EXTREMELY OBESE'),), default='Normal')
+    bmi = models.FloatField()
+    date = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __str__(self):
+        return f"{self.user.username}'s BMI is {self.bmi}"
+    class Meta:
+        ordering = ['date']
+        get_latest_by = ['date']
     
 class Illness(models.Model):
     id = models.AutoField(primary_key=True)

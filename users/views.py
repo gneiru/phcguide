@@ -8,7 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from .models import Illness, PhysicalActivities, DietPlan, DietSupplement
+from .models import Illness, PhysicalActivities, DietPlan, DietSupplement, UserBMI
 
 from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm, BMIForm
 
@@ -87,6 +87,7 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
 @login_required
 def profile(request):
     if request.method == 'POST':
+        print(request.POST)
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
 
@@ -103,6 +104,14 @@ def profile(request):
 
 @login_required
 def bmi(request):
+    stuff = UserBMI.objects.filter(user_id=request.user.id).order_by('-date')
+    p = Paginator(stuff, 7)
+    page = request.GET.get('page',1)
+
+    try:
+        userRecords = p.page(page)
+    except EmptyPage:
+        userRecords = p.page(1)
     if request.GET.get('weight') and request.GET.get('height'):
         weight = request.GET.get('weight')
         height = request.GET.get('height')
@@ -117,14 +126,25 @@ def bmi(request):
             classification = "Obese"
         elif BMI >=35:
             classification = "Extremely Obese"
-        request.session['classification'] = classification
-        return render(request, 'users/logged/bmi.html', {
-            'bmi_form': BMIForm, 'classification': classification, 'bmi': BMI, 'reco': False,
-        })
-    else:   
-        return render(request, 'users/logged/bmi.html', {
-            'bmi_form': BMIForm,
-        })
+        #Save Data
+        userBMI = UserBMI()
+        userBMI.user = request.user
+        userBMI.classification = classification
+        userBMI.bmi = BMI
+        userBMI.save()
+        #Reload
+        return redirect('/bmi/')
+    else: 
+        try: 
+            userBMI = UserBMI.objects.filter(user_id=request.user.id).latest()
+            request.session['classification'] = userBMI.classification
+            return render(request, 'users/logged/bmi.html', {
+            'bmi_form': BMIForm, 'classification': userBMI.classification, 'bmi': userBMI.bmi, 'records': userRecords,
+            })
+        except:
+            return render(request, 'users/logged/bmi.html', {
+            'bmi_form': BMIForm, 'records': userRecords, })
+        
 @login_required
 def diet_plan(request):
     
