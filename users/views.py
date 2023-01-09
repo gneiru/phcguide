@@ -174,7 +174,8 @@ def diet_plan(request):
             'plans': page
         })
     if request.GET.get('generate'):
-        list1 = [random.choice(list(DietPlan.objects.filter(classification=request.GET.get('generate')))) for _ in range(7)]
+        list1 = list(DietPlan.objects.filter(classification=request.GET.get('generate')))
+        list1 = random.sample(list1, 7)
         daylist = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
         for i in range(7):
             list1[i].day = daylist[i]
