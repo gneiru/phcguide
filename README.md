@@ -2,6 +2,7 @@
 
 Terminal CMDS:
 - git clone https://github.com/gneiru/phcguide.git
+- cd phcguide
 - python3 -m venv env
 - .\env\Scripts\activate
 - pip install -r requirements.txt
